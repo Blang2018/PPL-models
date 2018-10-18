@@ -74,17 +74,8 @@ if __name__ == '__main__':
 
         trace = pm.sample(2000, tune=1500, cores=3)
         pm.traceplot(trace)
-        plt.savefig("deliverables/pymc3-rugby-posterior.png", dpi=300)
-        plt.show()
-
-
-
-
-
-
-
-
-
+        pd.DataFrame(pm.effective_n(trace)).to_csv("pymc3-ess-rugby.csv")
+        plt.savefig("pymc3-rugby-posterior.png", dpi=300)
 
 
 
