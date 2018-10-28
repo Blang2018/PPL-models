@@ -44,16 +44,13 @@ if __name__ == '__main__':
 
     with pm.Model() as model:
         # home court advantage!
-        # NOTE: Documentation uses Flat
-        home = pm.Uniform('home', -10, 10)
+        home = pm.Flat('home')
 
-        # NOTE: Documentation uses HalfStudentT(nu=3, sd=2.5)
-        sd_atk = pm.Exponential('sd_atk', 3)
-        sd_def = pm.Exponential('sd_def', 3)
+        sd_atk = pm.HalfStudentT('sd_atk', nu=3, sd=2.5)
+        sd_def = pm.HalfStudentT('sd_def', nu=3, sd=2.5)
 
         # intercept
-        # NOTE: Documentation uses Flat
-        intercept = pm.Uniform('intercept', -10, 10)
+        intercept = pm.Flat('intercept')
 
         # team-specific parameters
         # shape parameter for vector of values
