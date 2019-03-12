@@ -1,32 +1,37 @@
 #!/usr/bin/env nextflow
 
+deliverableDir = 'deliverables/' + workflow.scriptName.replace('.nf','')
+
 process createVirtualEnv {
   cache true
   output:
-    file 'venvpath.txt' into venvPath
-    file 'modelspath.txt' into modelsPath
+    file 'rootpath.txt' into rootPath
+    file '.virtualenvs' into venv
 """
 #!/bin/bash
-mkdir .virtualenvs
-python3 -m venv ./.virtualenvs
-source ./.virtualenvs/bin/activate
-pip3 install pymc3
-pip3 install matplotlib
-echo `pwd`/.virtualenvs/bin/ > venvpath.txt
-echo `pwd`/../../../ > modelspath.txt
+mkdir -p .virtualenvs/mbench
+python3.6 -m venv ./.virtualenvs/mbench
+source ./.virtualenvs/mbench/bin/activate
+pip install pymc3 matplotlib
+echo `pwd`/../../../ > rootpath.txt
 """
 }
 
+pyModels = Channel.fromPath('models/*.py')
 
-process runPyMC3 {
+process performPyMC3Inference {
   input:
-    file 'venvpath.txt' from venvPath
-    file 'modelspath.txt' from modelsPath
+    file 'rootpath.txt' from rootPath
+    file pyModel from pyModels
+    file '.virtualenvs' from venv
   output:
-    file '*.csv'
+    file '*.csv' into posteriorSamples
+  publishDir deliverableDir, mode: 'copy', overwrite: true
 """
-source `cat venvpath.txt`activate
+source .virtualenvs/mbench/bin/activate
 mkdir deliverables
-python3 `cat modelspath.txt`challenger.py 1 1000 `cat modelspath.txt`
+python3.6 $pyModel 1 1000 `cat rootpath.txt`
+mv deliverables/*.csv ./
 """
 }
+

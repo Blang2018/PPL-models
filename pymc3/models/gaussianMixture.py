@@ -6,8 +6,9 @@ import sys
 
 num_chains = int(sys.argv[1])
 num_draws = int(sys.argv[2])
+DATA_PATH = sys.argv[-1]
 
-oldFaithfulData = pd.read_csv("./datasets/gaussianMixture.data/oldFaithful.csv").values.flatten()
+oldFaithfulData = pd.read_csv(DATA_PATH + "datasets/gaussianMixture.data/oldFaithful.csv").values.flatten()
 n = oldFaithfulData.size
 K = 2
 

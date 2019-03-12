@@ -9,11 +9,14 @@ import matplotlib.pyplot as plt
 
 num_chains = int(sys.argv[1])
 num_draws = int(sys.argv[2])
+DATA_PATH = sys.argv[-1]
 
-try:
-    df_all = pd.read_csv('data/rugby.csv')
-except:
-    df_all = pd.read_csv(pm.get_data('rugby.csv'))
+df_all = pd.read_csv(DATA_PATH + "datasets/rugby.data/rugby.csv")
+
+# try:
+#     df_all = pd.read_csv('data/rugby.csv')
+# except:
+#     df_all = pd.read_csv(pm.get_data('rugby.csv'))
 
 
 def get_tidy_data():

@@ -6,8 +6,9 @@ import sys
 
 num_chains = int(sys.argv[1])
 num_draws = int(sys.argv[2])
+DATA_PATH = sys.argv[-1]
 
-texting_data = pd.read_csv("./datasets/changePoint.data/texting-data.csv").values.flatten()
+texting_data = pd.read_csv(DATA_PATH + "datasets/changePoint.data/texting-data.csv").values.flatten()
 n = texting_data.size
 
 with pm.Model() as cp_model:
