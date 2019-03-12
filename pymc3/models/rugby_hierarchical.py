@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 
 num_chains = int(sys.argv[1])
 num_draws = int(sys.argv[2])
+sampling_seed = (int(sys.argv[3])+1)^10
 DATA_PATH = sys.argv[-1]
 
 df_all = pd.read_csv(DATA_PATH + "datasets/rugby.data/rugby.csv")
@@ -75,8 +76,8 @@ if __name__ == '__main__':
         home_points = pm.Poisson('home_points', mu=home_theta, observed=obs_h_score)
         away_points = pm.Poisson('away_points', mu=away_theta, observed=obs_a_score)
 
-        trace = pm.sample(draws=num_draws, chains=num_chains)
-        pm.trace_to_dataframe(trace).to_csv("deliverables/rugby_" + sys.argv[1] + "_" + sys.argv[2] + ".csv")
+        trace = pm.sample(draws=num_draws, chains=num_chains, random_seed=sampling_seed)
+        pm.trace_to_dataframe(trace).to_csv("deliverables/rugby_" + sys.argv[1] + "_" + sys.argv[2] + "_" + sys.argv[3] + ".csv")
         # pm.traceplot(trace)
         # plt.show()
 

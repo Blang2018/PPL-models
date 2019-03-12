@@ -3,3 +3,4 @@ pymc3/deliverables
 pymc3/.nextflow*
 pymc3/.virtualenvs
 pymc3/work
+pymc3/WIP

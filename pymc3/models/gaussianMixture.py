@@ -6,6 +6,7 @@ import sys
 
 num_chains = int(sys.argv[1])
 num_draws = int(sys.argv[2])
+sampling_seed = (int(sys.argv[3])+1)^10
 DATA_PATH = sys.argv[-1]
 
 oldFaithfulData = pd.read_csv(DATA_PATH + "datasets/gaussianMixture.data/oldFaithful.csv").values.flatten()
@@ -22,7 +23,7 @@ with pm.Model() as gaussianMixtureModel:
     indicators = pm.Categorical('indicators', p=pi, shape=n)
     observation = pm.Normal('obs', mu=means[indicators], sd=sds[indicators], shape=n, observed=oldFaithfulData)
 
-    trace = pm.sample(1000, chains=1)
-    pm.trace_to_dataframe(trace).to_csv("deliverables/gaussianMixture_" + sys.argv[1] + "_" + sys.argv[2] + ".csv")
+    trace = pm.sample(draws=num_draws, chains=num_chains, random_seed=sampling_seed)
+    pm.trace_to_dataframe(trace).to_csv("deliverables/gaussianMixture_" + sys.argv[1] + "_" + sys.argv[2] + "_" + sys.argv[3] + ".csv")
     # pm.traceplot(trace)
     # plt.show()

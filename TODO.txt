@@ -1,1 +1,4 @@
-TODO : Due to bug described here: https://github.com/pymc-devs/pymc3/issues/3122 , need > 1 missing data. Make sure datasets used in Blang and PyMC3 are matching.
+1. Due to bug described here: https://github.com/pymc-devs/pymc3/issues/3122 , need > 1 missing data. Make sure datasets used in Blang and PyMC3 are matching.
+
+2. Use specific package numbers in pipeline (ie. pymc3 version 12.456)
+
