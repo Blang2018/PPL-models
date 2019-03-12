@@ -1,2 +1,5 @@
 pymc3/.idea/
 pymc3/deliverables
+pymc3/.nextflow*
+pymc3/.virtualenvs
+pymc3/work

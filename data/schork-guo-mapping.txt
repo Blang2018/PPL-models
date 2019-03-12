@@ -1,0 +1,79 @@
+Allele:
+A |-> 0
+B |-> 1
+
+Genotype:
+AA |-> 0
+AB |-> 1
+BB |-> 2
+
+Parent:
+Founder |-> -1
+Else    |-> ID of parent
+
+Disease:
+Not present |-> 0
+Present     |-> 1
+
+Gender:
+Female |-> 0
+Male   |-> 1
+
+Genotype probabilities given parents:
+
+MO FA As Bs |  AA  AB  BB
+0  0  4  0     4   0   0
+0  0  4  0     4   0   0
+
+0  1  3  1     2   2   0
+1  0  3  1     2   2   0
+
+0  2  2  2     0   4   0
+2  0  2  2     0   4   0
+
+1  2  1  3     0   2   2
+2  1  1  3     0   2   2
+
+2  2  0  4     0   0   4
+2  2  0  4     0   0   4
+=============================   
+1  1  2  2     1   2   1
+1  1  2  2     1   2   1
+=============================
+if (MO*3 +FA == 5) {f(AA) = 1, f(BB) = 1, f(AB) = 2}
+else {
+As = 4 - MO - FA
+Bs = MO + FA
+f(AA) = max(As - Bs, 0)
+f(BB) = max(Bs - As, 0)
+f(AB) = 4 - max(a-b, 0) - max(b-a,0)
+}    
+
+
+000 4
+001 0
+002 0
+010 2
+011 2
+012 0
+120 0
+121 2
+122 2
+---
+100 2
+101 2
+102 0
+210 0
+211 2
+212 2
+220 0
+221 0 
+222 4
+
+
+
+
+
+
+
+

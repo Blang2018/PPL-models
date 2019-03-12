@@ -4,8 +4,11 @@ try:
 except ImportError:
     from io import StringIO
 import pymc3 as pm, theano.tensor as tt
+import sys
 import matplotlib.pyplot as plt
 
+num_chains = int(sys.argv[1])
+num_draws = int(sys.argv[2])
 
 try:
     df_all = pd.read_csv('data/rugby.csv')
@@ -69,10 +72,10 @@ if __name__ == '__main__':
         home_points = pm.Poisson('home_points', mu=home_theta, observed=obs_h_score)
         away_points = pm.Poisson('away_points', mu=away_theta, observed=obs_a_score)
 
-        trace = pm.sample(2000, tune=1500, cores=3)
-        pm.traceplot(trace)
-        pd.DataFrame(pm.effective_n(trace)).to_csv("pymc3-ess-rugby.csv")
-        plt.savefig("pymc3-rugby-posterior.png", dpi=300)
+        trace = pm.sample(draws=num_draws, chains=num_chains)
+        pm.trace_to_dataframe(trace).to_csv("deliverables/rugby_" + sys.argv[1] + "_" + sys.argv[2] + ".csv")
+        # pm.traceplot(trace)
+        # plt.show()
 
 
 
