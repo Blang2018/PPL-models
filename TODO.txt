@@ -2,4 +2,4 @@
 
 2. Use specific package numbers in pipeline (ie. pymc3 version 12.456)
 
-3. Change Blang's run.nf process runBlang: iterate over each .bl from input instead of in bash to utilize parallel processing. NOTE: Ask prof. Bouchard first.
+3. Change Blang and pymc3's nextflow processes to iterate over models individually instead of all models in one process. Ask prof. Bouchard first.
