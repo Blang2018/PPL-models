@@ -25,7 +25,11 @@ with pm.Model() as cp_model:
     counts = pm.Poisson('counts', rate, observed=texting_data)
 
     trace = pm.sample(draws=num_draws, chains=num_chains, random_seed=sampling_seed)
-    pm.trace_to_dataframe(trace).to_csv("deliverables/changePoint_" + sys.argv[1] + "_" + sys.argv[2] + "_" + sys.argv[3] + ".csv")
+    results = pm.trace_to_dataframe(trace)
+    for header in list(results):
+        output = results.loc[:,header]
+        output.to_csv("changePoint_" + header + "_" + sys.argv[1] + "_" + sys.argv[2] + "_" + sys.argv[3] +
+                      ".csv", index_label="sample", header=["value"])
     # pm.traceplot(trace)
     # plt.show()
 

@@ -28,7 +28,11 @@ if __name__ == "__main__":
                                  observed=incidents_data)
 
         trace = pm.sample(draws=num_draws, chains=num_chains, random_seed=sampling_seed)
-        pm.trace_to_dataframe(trace).to_csv("deliverables/challenger_" + sys.argv[1] + "_" + sys.argv[2] + "_" + sys.argv[3] + ".csv")
+        results = pm.trace_to_dataframe(trace)
+        for header in list(results):
+            output = results.loc[:,header]
+            output.to_csv("challenger_" + header + "_" + sys.argv[1] + "_" + sys.argv[2] + "_" + sys.argv[3] +
+                          ".csv", index_label="sample", header=["value"])
         #  pm.plot_posterior(trace)
         #  plt.show()
 

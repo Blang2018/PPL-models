@@ -24,6 +24,10 @@ with pm.Model() as gaussianMixtureModel:
     observation = pm.Normal('obs', mu=means[indicators], sd=sds[indicators], shape=n, observed=oldFaithfulData)
 
     trace = pm.sample(draws=num_draws, chains=num_chains, random_seed=sampling_seed)
-    pm.trace_to_dataframe(trace).to_csv("deliverables/gaussianMixture_" + sys.argv[1] + "_" + sys.argv[2] + "_" + sys.argv[3] + ".csv")
+    results = pm.trace_to_dataframe(trace)
+    for header in list(results):
+        output = results.loc[:,header]
+        output.to_csv("gaussianMixture_" + header + "_" + sys.argv[1] + "_" + sys.argv[2] + "_" + sys.argv[3] +
+                      ".csv", index_label="sample", header=["value"])
     # pm.traceplot(trace)
     # plt.show()

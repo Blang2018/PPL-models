@@ -19,14 +19,10 @@ with pm.Model() as model:
     r = pm.StudentT('r', nu=nu, lam=pm.math.exp(-2 * s), observed=returns)
 
     trace = pm.sample(draws=num_draws, chains=num_chains, random_seed=sampling_seed)
-    pm.trace_to_dataframe(trace).to_csv("deliverables/sv_" + sys.argv[1] + "_" + sys.argv[2] + "_" + sys.argv[3] + ".csv")
+    results = pm.trace_to_dataframe(trace)
+    for header in list(results):
+        output = results.loc[:,header]
+        output.to_csv("sv_" + header + "_" + sys.argv[1] + "_" + sys.argv[2] + "_" + sys.argv[3] +
+                      ".csv", index_label="sample", header=["value"])
     # pm.traceplot(trace, varnames=['sigma', 'nu'])
     # plt.show()
-
-
-
-
-
-
-
-
