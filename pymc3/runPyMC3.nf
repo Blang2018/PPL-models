@@ -30,7 +30,6 @@ process performPyMC3Inference {
   input:
     val 'nDraws' from params.nDraws
     file 'rootpath.txt' from rootPath
-    file pyModel from pyModels
     file '.virtualenvs' from venv
     each seed from seeds
     each chain from chains
@@ -40,8 +39,10 @@ process performPyMC3Inference {
 """
 source .virtualenvs/mbench/bin/activate
 mkdir -p results/inference/samples
-python3.6 $pyModel $chain $nDraws $seed `cat rootpath.txt`
-mv *.csv results/inference/samples
+for model in `cat rootpath.txt`/models/*.py ; do
+  python3.6 \$model $chain $nDraws $seed `cat rootpath.txt`
+  mv *.csv results/inference/samples
+done
 """
 }
 
